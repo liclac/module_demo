@@ -19,7 +19,13 @@ public:
 	/// Just define this to make the destructor virtual
 	virtual ~module() {};
 	
-	/// Runs the module. The same prototype as main(), with a vector.
+	/**
+	 * Runs the module. Basically ye olde `main()` function, but with a vector
+	 * instead of a C array.
+	 * 
+	 * Oh, and this example's `main()` will not pass in argv[0] (program name)
+	 * or argv[1] (module name), but that's up to you.
+	 */
 	virtual int run(std::vector<std::string> params) = 0;
 };
 
@@ -61,6 +67,8 @@ public:
 		 *         );
 		 *     };
 		 * 
+		 * (Just remove the `template...` line and specify every var manually.)
+		 * 
 		 * @see http://en.cppreference.com/w/cpp/language/parameter_pack
 		 * @see http://en.cppreference.com/w/cpp/utility/forward
 		 * 
@@ -88,8 +96,11 @@ public:
 		 * which happens the first time it goes into scope (= on the first
 		 * call to the containing function), everything else will wait for it.
 		 * 
-		 * WARNING: For this promise to hold, the program must be compiled with
-		 * C++11 support, or the old, non-threadsafe behavior is used!
+		 * In other words, the registry is lazily instanced on the first call
+		 * to get(), in two lines of code. This is incredibly handy.
+		 * 
+		 * WARNING: For this to work (safely), the program must be compiled
+		 * with C++11 support!
 		 */
 		static registry _instance;
 		return _instance;
@@ -99,6 +110,7 @@ public:
 	std::map<std::string,entry> all;
 	
 private:
+	// Pls don't instantiate singletons
 	registry() {};
 	registry(const registry&) = delete;
 };
