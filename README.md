@@ -1,5 +1,5 @@
-Module Factory
-==============
+Module Demo
+===========
 
 A simple example application demonstrating a C++ application with self-registering modules, to be queried and instantiated by name using a factory.
 
